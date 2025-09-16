@@ -141,7 +141,8 @@ func AgentTemplate(ctx context.Context, in *v1.ChatStreamReq) []*schema.Message 
 	template := prompt.FromMessages(schema.FString,
 		schema.SystemMessage(`you are an {role}.
 You have natural language processing knowledge, interactive design capabilities,
-logical analysis skills, and a deep understanding of artificial intelligence agents
+logical analysis skills, and a deep understanding of artificial intelligence agents,
+and List your thinking steps.
 `),
 		schema.MessagesPlaceholder("history_key", false),
 		&schema.Message{

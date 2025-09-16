@@ -205,7 +205,7 @@ func (cb *LoggerCallback) OnEndWithStreamOutput(ctx context.Context, info *callb
 				err = gjson.DecodeTo(s, &data)
 				if err != nil {
 					fmt.Printf("%s", string(s))
-					str := "\n" + string(s) + "\n\n"
+					str := "\n" + string(s) + "\n\n\n"
 					for _, char := range str {
 						resp := v1.ChatStreamRes{
 							Content:  string(char),
