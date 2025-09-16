@@ -1,12 +1,12 @@
 ## Agent架构
 <img src="./resource/public/resource/image/agent.png" alt="架构图" width="70%">
 
-### 说明
+## 说明
 前后端分离项目
-前端:
+### 前端:
 1. Vue3 项目
 2. Axios 请求库
-后端
+### 后端
 1. GoFrame 框架
 2. Eino 框架
 
