@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stream Chat Test</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>流式聊天测试</h1>
+    
+    <div>
+        <label>Query:</label>
+        <input type="text" id="query" value="你好，请介绍一下自己" style="width: 300px;">
+    </div>
+    
+    <div>
+        <label>Session ID:</label>
+        <input type="text" id="sessionId" value="test-session-1" style="width: 200px;">
+    </div>
+    
+    <div>
+        <button onclick="startStream()">开始流式对话</button>
+        <button onclick="clearOutput()">清空输出</button>
+    </div>
+    
+    <div>
+        <h3>输出:</h3>
+        <div id="output" style="border: 1px solid #ccc; padding: 10px; height: 400px; overflow-y: auto; white-space: pre-wrap;"></div>
+    </div>
+
+    <script>
+        let eventSource = null;
+
+        function startStream() {
+            const query = document.getElementById('query').value;
+            const sessionId = document.getElementById('sessionId').value;
+            const output = document.getElementById('output');
+            
+            if (eventSource) {
+                eventSource.close();
+            }
+            
+            // 构建 URL
+            const url = `http://localhost:8000/chat/stream?query=${encodeURIComponent(query)}&session_id=${encodeURIComponent(sessionId)}`;
+            
+            output.textContent += `连接到: ${url}\n\n`;
+            
+            eventSource = new EventSource(url);
+            
+            eventSource.onopen = function(event) {
+                output.textContent += "连接已建立\n";
+            };
+            
+            eventSource.onmessage = function(event) {
+                try {
+                    const data = JSON.parse(event.data);
+                    
+                    if (data.error) {
+                        output.textContent += `错误: ${data.error}\n`;
+                        eventSource.close();
+                        return;
+                    }
+                    
+                    if (data.content) {
+                        output.textContent += data.content;
+                    }
+                    
+                    if (data.done) {
+                        output.textContent += "\n\n--- 对话结束 ---\n\n";
+                        eventSource.close();
+                    }
+                    
+                    // 自动滚动到底部
+                    output.scrollTop = output.scrollHeight;
+                    
+                } catch (e) {
+                    output.textContent += `解析错误: ${e.message}\n`;
+                }
+            };
+            
+            eventSource.onerror = function(event) {
+                output.textContent += "连接错误\n";
+                eventSource.close();
+            };
+        }
+        
+        function clearOutput() {
+            document.getElementById('output').textContent = '';
+            if (eventSource) {
+                eventSource.close();
+            }
+        }
+    </script>
+</body>
+</html>
