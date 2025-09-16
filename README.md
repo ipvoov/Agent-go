@@ -1,5 +1,5 @@
 ## Agent架构
-<img src="./resource/public/resource/image/rctAgent.png" alt="架构图" width="50%">
+<img src="./resource/public/resource/image/agent.png" alt="架构图" width="50%">
 
 ### 说明
 前后端分离项目
