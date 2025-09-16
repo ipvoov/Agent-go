@@ -13,34 +13,36 @@
 # 运行流程
 
 ## 1. 下载项目
+```bash
+git clone https://github.com/ipvoov/Agent-go.git
+```
 
-git clone https://github.com/wangzhongyang007/goframe-shop-v2
-
-## 2. 配置数据库
-
-把hack/shop.sql导入你的数据库中
+## 2. 安装 milvus 向量知识库
+```bash
+docker-compose up -d
+```
 
 ## 3. 修改配置文件
 
-修改hack/config.yaml文件中的数据库密码
-
-修改manifest/config/config.yaml中的数据库密码
-
-redis的密码可以不改，gtoken已经使用gcache模式，如果你需要使用redis，请配置配置文件中的redis
-
-七牛云的密码可以不改，不影响项目启动，如果你需要图片上传功能，请修改配置文件中qiniu相关的参数
+修改manifest/config/config.yaml中的apiKey 和你想使用的模型
+想要使用搜索和地图工具,要修改 api
 
 ## 4. 启动项目
 
 在项目根目录下执行：
-
+```bash
 go run main.go
+```
 
 如果你需要自动编译，可以执行：
-
+```bash
 gf run main.go
+```
 
-# 项目启动失败可能的原因
+## 5.前端运行流程
+```bash
+cd /agent-frontend && npm i && npm run dev
+```
 
 ## 2.前端
 ### 2.1 前端展示
